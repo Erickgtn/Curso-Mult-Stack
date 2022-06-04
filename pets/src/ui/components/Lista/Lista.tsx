@@ -8,33 +8,31 @@ Nome,
 Descricao
 } from './Lista.style'
 
-export default function Lista(){
+import{Pet} from '../../../data/@types/Pet'
+import {TextService} from '../../../data/services/TextService'
+interface ListaProps{
+    pets:Pet[];
+}
+export default function Lista(props:ListaProps){
+const tamanhoMaximoTexto = 200;
+
     return(
         <ListaStyled>
-            <ItemLista>
-                <Foto src='https://cf.shopee.com.br/file/5cdb9855c6f64f333299d3c1d02d5de9' />
-                <Informacoes>
-                    <Nome>Dudu</Nome>
-                    <Descricao>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto corrupti pariatur neque omnis molestiae aspernatur suscipit alias accusantium porro nobis dignissimos, minima voluptatum assumenda blanditiis beatae ullam vero ipsum earum.
-                    </Descricao>
-                    <Button
-                        variant={'contained'}
-                    >Adotar</Button>
-                </Informacoes>
-            </ItemLista>
-            <ItemLista>
-                <Foto src='https://cf.shopee.com.br/file/5cdb9855c6f64f333299d3c1d02d5de9' />
-                <Informacoes>
-                    <Nome>Dudu</Nome>
-                    <Descricao>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto corrupti pariatur neque omnis molestiae aspernatur suscipit alias accusantium porro nobis dignissimos, minima voluptatum assumenda blanditiis beatae ullam vero ipsum earum.
-                    </Descricao>
-                    <Button
-                        variant={'contained'}
-                    >Adotar</Button>
-                </Informacoes>
-            </ItemLista>
+            { props.pets.map(pet=>(
+                <ItemLista key={pet.id}>
+                    <Foto src={pet.foto} alt={pet.nome} />
+                    <Informacoes>
+                        <Nome>{pet.nome}</Nome>
+                        <Descricao>
+                            {TextService.limitarTexto(pet.historia,tamanhoMaximoTexto)}
+                        </Descricao>
+                        <Button
+                            variant={'contained'}
+                            fullWidth
+                        >Adotar {pet.nome}</Button>
+                    </Informacoes>
+                </ItemLista>
+            ))}
         </ListaStyled>
     )
 }
